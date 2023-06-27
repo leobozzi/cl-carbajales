@@ -219,6 +219,7 @@
     'git-repos': [
         'https://github.com/leobozzi/cl-carbajales cl-carbajales',
         #'https://github.com/leobozzi/odoo-addons-utils.git',
+        'https://github.com/leobozzi/transport_module transport_module',
         'https://github.com/odoo/enterprise enterprise',
         #'https://github.com/vangrow/account-modules.git',
 
