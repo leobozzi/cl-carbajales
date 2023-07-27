@@ -115,6 +115,7 @@
 
     ],
     'data': [
+        'views/account_move.xml',
         ],
     'test': [
     ],
