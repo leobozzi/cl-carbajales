@@ -5,6 +5,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools.translate import _
 
+from datetime import datetime
 
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
@@ -14,6 +15,5 @@ class StockMoveLine(models.Model):
         for rec in self:
             sale_order_line_ids = self.env['sale.order.line'].search([('order_id.name','=',rec.origin)])
             for sale_order_line_id in sale_order_line_ids:
-                if rec.picking_id.route_id:
-                    sale_order_line_id.name = sale_order_line_id.product_id.name + " (%s)"%(rec.picking_id.route_id.name)
-           
+                sale_order_line_id.name = sale_order_line_id.product_id.name + " (%s)"%(rec.picking_id.route_id.name) + " [%s]"%(datetime.strftime(rec.picking_id.scheduled_date, '%d/%m/%Y'))
+                
