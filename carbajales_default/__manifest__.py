@@ -116,6 +116,7 @@
     ],
     'data': [
         'views/account_move_line.xml',
+        'report/report_invoice.xml',
         ],
     'test': [
     ],
