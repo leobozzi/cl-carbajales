@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sale Order -->
+        <template id="report_sale_order_document" inherit_id="sale.report_saleorder_document">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+            <xpath expr="//th[@name='th_priceunit']" position="after">
+                <th name="th_commission">
+                    <span>Com./Bon.</span>
+                </th>
+            </xpath>
+            <xpath expr="//td[@name='td_priceunit']" position="after">
+                <td class="text-right">
+                    <span t-field="doc.currency_id.symbol" />
+                    <span t-field="line.commission" />
+                </td>
+            </xpath>
+        </template>
+    </data>
+</odoo>
