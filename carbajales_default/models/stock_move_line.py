@@ -15,7 +15,7 @@ class StockMoveLine(models.Model):
         for rec in self:
             sale_order_line_ids = self.env['sale.order.line'].search([('order_id.name','=',rec.origin)])
             for sale_order_line_id in sale_order_line_ids:
-                sale_order_line_id.name = sale_order_line_id.product_id.name + " (%s)"%(rec.picking_id.route_id.name) + " [%s]"%(datetime.strftime(rec.picking_id.scheduled_date, '%d/%m/%Y'))
+                sale_order_line_id.name = sale_order_line_id.product_id.name + " (%s)" %(rec.picking_id.lr_number) + " (%s)"%(rec.picking_id.route_id.name) + " [%s]"%(datetime.strftime(rec.picking_id.scheduled_date, '%d/%m/%Y'))
 
         res = super(StockMoveLine, self).write(vals)
         return res
