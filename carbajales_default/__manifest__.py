@@ -28,7 +28,7 @@
         # Applicaciones del Cliente
         'sale_management',
         'purchase',
-        #'stock',
+        'stock',
         'note',
         'board',
         'calendar',
