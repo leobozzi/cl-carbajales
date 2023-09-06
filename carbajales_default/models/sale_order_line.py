@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.tools.translate import _
+from odoo.exceptions import ValidationError, UserError
 
 
 class SaleOrderLine(models.Model):
@@ -10,7 +11,7 @@ class SaleOrderLine(models.Model):
     _description = 'sale.order.line'
     
     commission = fields.Float(
-        string="Com./Bon.",
+        string="Bonif.",
         default=0.0,
         readonly=True,
         compute='_compute_commission'
@@ -20,3 +21,11 @@ class SaleOrderLine(models.Model):
     def _compute_commission(self):
         for rec in self:
             rec.commission = abs(rec.product_uom_qty*(rec.price_unit * rec.discount)/100)
+    
+    @api.model
+    def write(self, vals):
+        for rec in self:
+            if rec.order_id.general_bonus != 0.0:
+                vals['discount'] = -rec.order_id.general_bonus
+        res = super(SaleOrderLine, self).write(vals)
+        return res
