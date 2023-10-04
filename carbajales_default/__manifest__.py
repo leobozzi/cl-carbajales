@@ -118,6 +118,8 @@
     'data': [
         'views/sale_order_view.xml',
         'report/report_sale_order.xml',
+        'report/report_invoice.xml',
+        'report/report_payment_group.xml',
         ],
     'test': [
     ],

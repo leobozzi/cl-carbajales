@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Orden de Pago -->
+        <template id="account_report_payment_group_document" inherit_id="l10n_ar_ux.report_payment_group_document">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+            <xpath expr="//div[@id='informations']//div" position="after">
+                 <!-- Memo -->
+                 <strong>Memo: </strong><span t-field="o.communication"/>
+
+            </xpath>
+
+        </template>
+    </data>
+</odoo>
