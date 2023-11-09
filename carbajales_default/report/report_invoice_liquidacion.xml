@@ -19,7 +19,7 @@
         <!-- Internal Move design -->
         <template id="report_preprinted_internal_move">
             <div class="page" style="zoom:1.25;font-size:0.8em;">
-                <div id="item_box" style="position:absolute;left:10mm;top:50mm;">
+                <div id="item_box" style="position:absolute;left:10mm;top:49mm;">
                     <table class="table table-sm"
                         t-if="o.invoice_line_ids" style="width:135mm;">
                         <tbody style="border-style: solid;">
@@ -91,24 +91,24 @@
         <template id="report_preprinted_internal_header">
             <div class="page" style="zoom:1.25;font-size:0.8em;">
                 <div t-if="o.partner_id" name="partner_header" style="position:relative;">
-                    <span style="position:absolute;left:140mm;top:14mm;width:70mm;font-size:1.2em;">
+                    <span style="position:absolute;left:140mm;top:13mm;width:70mm;font-size:1.2em;">
                         <a t-field="o.invoice_date" style="font-weight:bold;" />
                     </span>
-                    <span style="position:absolute;left:27mm;top:35mm;width:130mm;font-size:1em;"
+                    <span style="position:absolute;left:27mm;top:34mm;width:130mm;font-size:1em;"
                         t-field="o.partner_id" />
-                    <span style="position:absolute;left:27mm;top:38mm;width:150mm;">
+                    <span style="position:absolute;left:27mm;top:37mm;width:150mm;">
                         <a t-field="o.partner_id.street" />
                     </span>
-                    <span style="position:absolute;left:27mm;top:41mm;width:150mm;">
+                    <span style="position:absolute;left:27mm;top:40mm;width:150mm;">
                         <a t-field="o.partner_id.city" /> - <a
                             t-field="o.partner_id.state_id" /> - <a t-field="o.partner_id.zip" />
                     </span>
-                    <span style="position:absolute;left:27mm;top:45mm;width:130mm;">
+                    <span style="position:absolute;left:27mm;top:44mm;width:130mm;">
                         <a t-field="o.partner_id.vat" />
                     </span>
-                    <span style="position:absolute;left:90mm;top:45mm;width:130mm;"
+                    <span style="position:absolute;left:90mm;top:44mm;width:130mm;"
                         t-field="o.partner_id.l10n_ar_afip_responsibility_type_id" />
-                    <span style="position:absolute;left:155mm;top:45mm;width:130mm;"
+                    <span style="position:absolute;left:155mm;top:44mm;width:130mm;"
                         t-field="o.partner_id.l10n_ar_gross_income_number" />
                 </div>
                 <div t-if="o.invoice_line_ids" name="move_line"
