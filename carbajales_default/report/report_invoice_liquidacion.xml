@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- A4 Paper format -->
+        <record id="paperformat_preprinted" model="report.paperformat">
+            <field name="name">pre printed</field>
+            <field eval="False" name="default" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field eval="False" name="header_line" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">72</field>
+        </record>
+
+        <!-- Internal Move design -->
+        <template id="report_preprinted_internal_move">
+            <div class="page" style="zoom:1.25;font-size:0.8em;">
+                <div id="item_box" style="position:absolute;left:10mm;top:50mm;">
+                    <table class="table table-sm"
+                        t-if="o.invoice_line_ids" style="width:135mm;">
+                        <tbody style="border-style: solid;">
+                            <tr style="border-style: solid;">
+                                <th>
+                                    <span>Descripción</span>
+                                </th>
+                                <th>
+                                    <span>Cantidad</span>
+                                </th>
+                                <th>
+                                    <span>Precio Unitario</span>
+                                </th>
+                                <th>
+                                    <span>Com./Bon.</span>
+                                </th>
+                                <th>
+                                    <span>% IVA</span>
+                                </th>
+                                <th>
+                                    <span>Importe</span>
+                                </th>
+                            </tr>
+                            <t t-as="line" t-foreach="records">
+                                <tr style="border-style: groove;">
+                                    <td>
+                                        <span style="overflow:hidden;white-space: nowrap;"
+                                            t-field="line.name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.quantity" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.price_unit" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.commission" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.tax_ids" />
+                                    </td>
+                                    <td>
+                                        <span t-field="line.price_subtotal" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix">
+                        <div id="total" class="row">
+                            <div
+                                t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+
+                                    <!--Tax
+                                    totals-->
+                                    <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)" />
+                                    <t t-call="account.document_tax_totals" />
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Internal Header design -->
+        <template id="report_preprinted_internal_header">
+            <div class="page" style="zoom:1.25;font-size:0.8em;">
+                <div t-if="o.partner_id" name="partner_header" style="position:relative;">
+                    <span style="position:absolute;left:140mm;top:14mm;width:70mm;font-size:1.2em;">
+                        <a t-field="o.invoice_date" style="font-weight:bold;" />
+                    </span>
+                    <span style="position:absolute;left:27mm;top:35mm;width:130mm;font-size:1em;"
+                        t-field="o.partner_id" />
+                    <span style="position:absolute;left:27mm;top:38mm;width:150mm;">
+                        <a t-field="o.partner_id.street" />
+                    </span>
+                    <span style="position:absolute;left:27mm;top:41mm;width:150mm;">
+                        <a t-field="o.partner_id.city" /> - <a
+                            t-field="o.partner_id.state_id" /> - <a t-field="o.partner_id.zip" />
+                    </span>
+                    <span style="position:absolute;left:27mm;top:45mm;width:130mm;">
+                        <a t-field="o.partner_id.vat" />
+                    </span>
+                    <span style="position:absolute;left:90mm;top:45mm;width:130mm;"
+                        t-field="o.partner_id.l10n_ar_afip_responsibility_type_id" />
+                    <span style="position:absolute;left:155mm;top:45mm;width:130mm;"
+                        t-field="o.partner_id.l10n_ar_gross_income_number" />
+                </div>
+                <div t-if="o.invoice_line_ids" name="move_line"
+                    style="position:absolute;">
+                    <t t-call="carbajales_default.report_preprinted_internal_move" />
+                </div>
+            </div>
+        </template>
+
+        <!-- Print 1 Pages -->
+        <template id="report_preprinted_pages">
+            <div class="page" style="zoom:1.25;font-size:0.8em;">
+                <div style="width:100%;top:17mm;height:160mm; position:relative;">
+                    <!--
+                    <span
+                        style="position:absolute;left:180mm;top:25mm;width:70mm;font-size:1.2em;font-weight:bold;">
+                        ORIGINAL</span>
+                    -->
+                    <t t-call="carbajales_default.report_preprinted_internal_header" />
+                </div>
+                <!--
+                <div style="width:100%; top:35mm;height:160mm; position:relative;">
+                    <span
+                        style="position:absolute;left:180mm;top:25mm;width:70mm;font-size:1.2em;font-weight:bold;">
+                        DUPLICADO</span>
+                    <t t-call="carbajales_default.report_preprinted_internal_header" />
+                </div>
+                -->
+            </div>
+        </template>
+
+        <!-- Template -->
+        <template id="invoice_report_preprinted">
+            <t t-call="web.html_container">
+                <t t-as="o" t-foreach="docs">
+                    <div class="article" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <t t-set="chunk_size" t-value="20" />
+                        <t t-set="chunks"
+                            t-value="[o.invoice_line_ids[i:i+chunk_size] for i in range(0, len(o.invoice_line_ids), chunk_size)]" />
+                        <t t-as="c" t-foreach="chunks">
+                            <t t-set="records" t-value="c" />
+                            <t t-call="carbajales_default.report_preprinted_pages" />
+                            <p style="page-break-before:always;" />
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Add report -->
+        <report id="carbajales_invoice_report_preprinted"
+            model="account.move"
+            name="carbajales_default.invoice_report_preprinted"
+            report_type="qweb-pdf"
+            string="Preimpreso"
+            print_report_name="('Operación - ' + object.name)" />
+        <record id="carbajales_invoice_report_preprinted" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_preprinted" />
+        </record>
+    </data>
+</odoo>
