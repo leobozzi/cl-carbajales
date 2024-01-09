@@ -337,7 +337,7 @@
     ],
     'docker-images': [
        'odoo lbozzi/odoo-docker-lb:15.0',
-       'postgres mdillon/postgis:11-alpine',
+       'postgres postgres:13',
        'nginx nginx',
     ]
 }

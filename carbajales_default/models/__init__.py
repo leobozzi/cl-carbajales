@@ -3,3 +3,5 @@
 from . import stock_move_line
 from . import sale_order_line
 from . import sale_order
+from . import account_aged_receivable
+from . import account_aged_payable
